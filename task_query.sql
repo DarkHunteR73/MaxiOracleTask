@@ -1,5 +1,5 @@
 SELECT a.address, 
-	CAST(SUM(r.addr_id) / r.addr_id AS UNSIGNED) count_of_residents
+	COUNT(r.addr_id) count_of_residents
     
 FROM address a 
 	LEFT JOIN residents r 
