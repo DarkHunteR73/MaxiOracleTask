@@ -22,37 +22,28 @@ CCINCLUDES=-I$(ICINCHOME)include
 THREADLIBS=-lthread
 CCLIB=$(ICLIBPATH) -locci -lclntsh $(THREADLIBS)
 
-CCFLAGS=$(CCINCLUDES) -D_REENTRANT -g -xs
-LDFLAGS=
+CCFLAGS=$(CCINCLUDES) -DLINUX -D_GNU_SOURCE -D_REENTRANT -g
+LDFLAGS=$(LDPATH) -g
 
 all: task_prog
 
 task_prog: main.o dal.o
 	$(CC) -o task_prog $(LDFLAGS) main.o dal.o $(CCLIB)
 
-main.o:
+main.o: main.cpp
 	$(CC) -c $(CCFLAGS) -Wall main.cpp
 
-dal.o: dal.h
+dal.o: dal.h dal.cpp
 	$(CC) -c $(CCFLAGS) dal.cpp
 
 clean:
 	rm -f *.o task_prog
-
-
-ifeq ($(BUILD32),T)
-CCFLAGS=$(CCINCLUDES) -DLINUX -D_GNU_SOURCE -D_REENTRANT -g -m32
-LDFLAGS=$(LDPATH) -g -m32
-else
-CCFLAGS=$(CCINCLUDES) -DLINUX -D_GNU_SOURCE -D_REENTRANT -g
-LDFLAGS=$(LDPATH) -g
 
 #Use libocci_gcc53 library for linux 64 bit, if gcc version 5 and above is used.
 GCCVERSION=$(shell expr `$(CC) -dumpversion | cut -f1 -d.`)
 ifeq ($(shell test $(GCCVERSION) -gt 4; echo $$?), 0)
 CCLIB=$(ICLIBPATH) -locci_gcc53 -lclntsh $(THREADLIBS)
 CCFLAGS += -Wno-narrowing
-endif
 endif
 
 THREADLIBS=-lpthread
