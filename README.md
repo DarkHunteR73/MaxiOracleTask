@@ -13,6 +13,8 @@ $ sudo gpasswd -a <*user*> docker
 
 ### Образ Oracle Database XE
 
+TODO: переписать на использование своего `Dockerfile`-а.
+
 ```sh
 $ git clone https://github.com/oracle/docker-images.git
 $ cd docker-images/OracleDatabase/SingleInstance/dockerfiles/
@@ -60,3 +62,34 @@ $ cd oracle-sqldeveloper
 # комментируем 'url'
 $ makepkg -si
 ```
+
+## Режим ValkoVesi
+
+`ValkoVesi` это режим при котором `instantclient` не установлен через пакет
+а [скачен][1] и разархивирован вручную. Предполагается что архив распакован в корень папки
+`/opt`. Для сборки проекта вам будет необходимо указать режим, как описано ниже.
+При запуске, вам также будет необходимо установить переменную `LD_LIBRARY_PATH`.
+
+```
+#---------------------------
+# Use:
+# export LD_LIBRARY_PATH=/opt/instantclient_21_5/
+# Before run the target in ValkoVesi mode
+#---------------------------
+```
+
+## Сборка и очистка
+
+```sh
+$ make clean
+$ make
+```
+
+Для сборки в режиме `ValkoVesi` передайте соответствующий параметр.
+
+```sh
+$ make mode=VV clean
+$ make mode=VV
+```
+
+[1]: https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
