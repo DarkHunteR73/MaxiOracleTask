@@ -3,7 +3,7 @@
 --------------------------------------------------------
 DROP TABLE "ADDRESS";
 DROP TABLE "RESIDENTS";
-DROP VIEW "VIEW1";
+DROP VIEW "ADDRESS_VIEW";
 --------------------------------------------------------
 --  DDL for Table ADDRESS
 --------------------------------------------------------
@@ -22,10 +22,10 @@ DROP VIEW "VIEW1";
 	"ADDR_ID" NUMBER(*,0)
    ) ;
 --------------------------------------------------------
---  DDL for View VIEW1
+--  DDL for View ADDRESS_VIEW
 --------------------------------------------------------
 
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "VIEW1" ("ADDRESS", "COUNT_OF_RESIDENTS") AS 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "ADDRESS_VIEW" ("ADDRESS", "COUNT_OF_RESIDENTS") AS 
   SELECT
     a.address,
     COUNT(r.addr_id) count_of_residents
@@ -34,8 +34,6 @@ FROM
     LEFT JOIN residents r ON a.id = r.addr_id
 GROUP BY
     a.address
-ORDER BY
-    count_of_residents DESC
 ;
 REM INSERTING into ADDRESS
 SET DEFINE OFF;
