@@ -23,7 +23,15 @@ int main(int argc, char* argv[]) {
     std::unique_ptr<dataAccessLayer> dal { new dataAccessLayer(userName,password,db) };
     vector<Record> res;
 
-    res = dal->getSortedQuery(sortingType);
+    try
+    {
+        res = dal->getSortedQuery(sortingType);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        return EXIT_FAILURE;
+    }
 
     for (auto &&i : res)
     {

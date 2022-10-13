@@ -13,7 +13,7 @@ dataAccessLayer::~dataAccessLayer() {
     Environment::terminateEnvironment(env);
 }
 
-vector<Record> dataAccessLayer::getSortedQuery(SortingType sortingType = sortByAddress) {
+vector<Record> dataAccessLayer::getSortedQuery(SortingType sortingType) {
     string sqlStmt = "SELECT * FROM ADDRESS_VIEW";
 
     // Сортировка внутри запроса
@@ -21,6 +21,8 @@ vector<Record> dataAccessLayer::getSortedQuery(SortingType sortingType = sortByA
         sqlStmt += " ORDER BY ADDRESS";
     } else if (sortingType == sortByCount) {
         sqlStmt += " ORDER BY COUNT_OF_RESIDENTS";
+    } else {
+        throw std::invalid_argument("Invalid sorting option");
     }
 
     Statement *stmt = conn->createStatement(sqlStmt);
