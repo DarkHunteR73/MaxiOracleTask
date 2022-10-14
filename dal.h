@@ -15,8 +15,12 @@ struct Record {
     string address;
     int count;
 
-    Record(string _addr, int _count)
-        :address(_addr), count(_count) {}
+    Record(string _addr, int _count);
+};
+
+enum SortingType {
+    sortByAddress,
+    sortByCount
 };
 
 class dataAccessLayer {
@@ -25,10 +29,10 @@ public:
 
     ~dataAccessLayer();
 
-    vector<Record> getSortedQuery(const string arg);
+    vector<Record> getSortedQuery(SortingType sortingType);
 
 private:
     Environment *env;
     Connection *conn;
-    Statement *stmt;
+    //Statement *stmt;
 };
